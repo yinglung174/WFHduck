@@ -1,13 +1,18 @@
 package com.wfhduck.app.controller;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import com.wfhduck.app.model.CustomerModel;
 import com.wfhduck.app.service.CustomerService;
 
-@RestController
+@Controller
 public class CustomerController {
 	
 		@Autowired
@@ -15,17 +20,27 @@ public class CustomerController {
 		
 		@Autowired
 		CustomerService customerService;
-	    @RequestMapping("/addCustomer")
-	    public String hello(){
+	    @RequestMapping("/registrationProcess")
+	    public String registrationProcess(HttpServletRequest request, Model model){
 	    	customerModel = new CustomerModel();
-	    	customerModel.setUsername("johnchan");
-	    	customerModel.setPassword("johnchan");
-	    	customerModel.setFullName("John Chan");
-	    	customerModel.setAddress("email@email.com");
+	    	String username = request.getParameter("username");
+			String password = request.getParameter("password");
+			String fullName = request.getParameter("fullName");
+			String address = request.getParameter("address");
+			model.addAttribute("username",username);
+			model.addAttribute("password",password);
+			model.addAttribute("fullName",fullName);
+			model.addAttribute("address",address);
+	    	customerModel.setUsername(username);
+	    	customerModel.setPassword(password);
+	    	customerModel.setFullName(fullName);
+	    	customerModel.setAddress(address);
 	    	customerModel.setPoints(50);
 	    	customerService.addCustomer(customerModel);
-	        return "New Customer added";
+	        return "registrationSuccess";
 	    }
+	    
+	    
 
 
 }

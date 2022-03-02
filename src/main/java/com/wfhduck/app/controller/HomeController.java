@@ -47,5 +47,10 @@ public class HomeController{
         return "loginFail";
     }
 	
+	@GetMapping("/registration")
+    public String registration(){
+        return "registration";
+    }
+	
 	
 }
