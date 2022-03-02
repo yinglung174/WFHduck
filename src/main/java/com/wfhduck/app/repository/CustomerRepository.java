@@ -34,7 +34,7 @@ public class CustomerRepository {
 	
 	public String findCustomerProfile(String username) throws SQLException{
 		try {
-			System.out.println("EXCUTE FIND CUSTOMER LOGIN");
+			System.out.println("EXCUTE FIND CUSTOMER PROFILE");
 			String sql = "SELECT username FROM customer WHERE username = ?";
 		return jdbcTemplate.queryForObject(sql, new Object[]{username}, String.class);
 		}catch (EmptyResultDataAccessException e) {
@@ -43,10 +43,57 @@ public class CustomerRepository {
 	}
 		
 	public void updateCustomer(CustomerModel customerModel){
-			System.out.println("EXCUTE UPDATE CUSTOMER");
-		  jdbcTemplate.update("UPDATE customer SET pw = ? , fullName = ? , address = ? WHERE username = ? ",
-				 customerModel.getPassword(), customerModel.getFullName(),customerModel.getAddress(),customerModel.getUsername());
+			System.out.println("EXCUTE UPDATE CUSTOMER PROFILE");
+		  jdbcTemplate.update("UPDATE customer SET fullName = ? , address = ? WHERE username = ? ",
+				 customerModel.getFullName(),customerModel.getAddress(),customerModel.getUsername());
 	
+	}
+	
+	public void updateCustomerPassword(CustomerModel customerModel){
+		System.out.println("EXCUTE UPDATE CUSTOMER PASSWORD");
+	  jdbcTemplate.update("UPDATE customer SET pw = ?  WHERE username = ? ",
+			 customerModel.getPassword(), customerModel.getUsername());
+
+}
+	
+	public String findCustomerPassword(String username) throws SQLException{
+		try {
+			System.out.println("EXCUTE FIND CUSTOMER PASSWORD");
+			String sql = "SELECT pw FROM customer WHERE username = ?";
+		return jdbcTemplate.queryForObject(sql, new Object[]{username}, String.class);
+		}catch (EmptyResultDataAccessException e) {
+			return null;
+		}
+	}
+	
+	public String findCustomerFullName(String username) throws SQLException{
+		try {
+			System.out.println("EXCUTE FIND CUSTOMER FULLNAME");
+			String sql = "SELECT fullName FROM customer WHERE username = ?";
+		return jdbcTemplate.queryForObject(sql, new Object[]{username}, String.class);
+		}catch (EmptyResultDataAccessException e) {
+			return null;
+		}
+	}
+	
+	public String findCustomerAddress(String username) throws SQLException{
+		try {
+			System.out.println("EXCUTE FIND CUSTOMER ADDRESS");
+			String sql = "SELECT address FROM customer WHERE username = ?";
+		return jdbcTemplate.queryForObject(sql, new Object[]{username}, String.class);
+		}catch (EmptyResultDataAccessException e) {
+			return null;
+		}
+	}
+	
+	public Integer findCustomerPoints(String username) throws SQLException{
+		try {
+			System.out.println("EXCUTE FIND CUSTOMER POINTS");
+			String sql = "SELECT points FROM customer WHERE username = ?";
+		return jdbcTemplate.queryForObject(sql, new Object[]{username}, Integer.class);
+		}catch (EmptyResultDataAccessException e) {
+			return null;
+		}
 	}
 
 

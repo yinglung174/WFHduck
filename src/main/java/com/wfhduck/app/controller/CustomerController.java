@@ -46,25 +46,67 @@ public class CustomerController {
 	    public String profileProcess(HttpServletRequest request, Model model) throws SQLException{
 	    	customerModel = new CustomerModel();
 	    	String username = request.getParameter("username");
-			String password = request.getParameter("password");
 			String fullName = request.getParameter("fullName");
 			String address = request.getParameter("address");
 			String usernameFound = customerService.findCustomerProfile(username);
 			if(usernameFound !=null) {
 				customerModel.setUsername(username);
-		    	customerModel.setPassword(password);
 		    	customerModel.setFullName(fullName);
 		    	customerModel.setAddress(address);
 		    	customerService.updateCustomer(customerModel);
 			}
 			model.addAttribute("username",username);
-			model.addAttribute("password",password);
 			model.addAttribute("fullName",fullName);
 			model.addAttribute("address",address);
 	        return "profileUpdateSuccess";
 	    }
 	    
+	    @RequestMapping("/readCustomerProfile")
+	    public String readCustomerProfile(HttpServletRequest request, Model model) throws SQLException{
+	    	customerModel = new CustomerModel();
+	    	String username = request.getParameter("username");
+			String usernameFound = customerService.findCustomerProfile(username);
+			String fullNameFound = customerService.findCustomerFullName(username);
+			String addressFound = customerService.findCustomerAddress(username);
+			model.addAttribute("username",usernameFound);
+			model.addAttribute("fullName",fullNameFound);
+			model.addAttribute("address",addressFound);
+	        return "viewCustomerProfile";
+	    }
 	    
+	    @RequestMapping("/backToInterface")
+	    public String backToInterface(HttpServletRequest request, Model model) throws SQLException{
+	    	customerModel = new CustomerModel();
+	    	String username = request.getParameter("username");
+	    	String fullNameFound = customerService.findCustomerFullName(username);
+			model.addAttribute("username",username);
+			model.addAttribute("fullName",fullNameFound);
+	        return "interface";
+	    }
+	    
+	    @RequestMapping("/passwordProcess")
+	    public String passwordProcess(HttpServletRequest request, Model model) throws SQLException{
+	    	customerModel = new CustomerModel();
+	    	String username = request.getParameter("username");
+			String password = request.getParameter("password");
+			String usernameFound = customerService.findCustomerProfile(username);
+			if(usernameFound !=null) {
+				customerModel.setUsername(username);
+		    	customerModel.setPassword(password);
+		    	customerService.updateCustomerPassword(customerModel);
+			}
+			model.addAttribute("username",username);
+			model.addAttribute("password",password);
+	        return "profileUpdateSuccess";
+	    }
+	    
+	    @RequestMapping("/changePassword")
+	    public String changePassword(HttpServletRequest request, Model model) throws SQLException{
+	    	customerModel = new CustomerModel();
+	    	String username = request.getParameter("username");
+			model.addAttribute("username",username);
+	        return "updatePassword";
+	    }
 
 
 }

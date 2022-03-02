@@ -28,5 +28,25 @@ public class CustomerService {
 	public void updateCustomer(CustomerModel customerModel){
 		customerRepository.updateCustomer(customerModel);
 	}
+	
+	public void updateCustomerPassword(CustomerModel customerModel){
+		customerRepository.updateCustomerPassword(customerModel);
+	}
+	
+	public String findCustomerPassword(String username) throws SQLException{
+		return customerRepository.findCustomerPassword(username);
+	}
+	
+	public String findCustomerFullName(String username) throws SQLException{
+		return customerRepository.findCustomerFullName(username);
+	}
+	
+	public String findCustomerAddress(String username) throws SQLException{
+		return customerRepository.findCustomerAddress(username);
+	}
+	
+	public Integer findCustomerPoints(String username) throws SQLException{
+		return customerRepository.findCustomerPoints(username);
+	}
 
 }
