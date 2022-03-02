@@ -24,12 +24,29 @@ public class CustomerRepository {
 	
 	public String findCustomerFullName(String username, String password) throws SQLException{
 		try {
-		System.out.println("EXCUTE FIND CUSTOMER LOGIN");
-		String sql = "SELECT fullName FROM customer WHERE username = ? AND pw = ?";
+			System.out.println("EXCUTE FIND CUSTOMER LOGIN");
+			String sql = "SELECT fullName FROM customer WHERE username = ? AND pw = ?";
 		return jdbcTemplate.queryForObject(sql, new Object[]{username,password}, String.class);
 		}catch (EmptyResultDataAccessException e) {
 			return null;
 		}
+	}
+	
+	public String findCustomerProfile(String username) throws SQLException{
+		try {
+			System.out.println("EXCUTE FIND CUSTOMER LOGIN");
+			String sql = "SELECT username FROM customer WHERE username = ?";
+		return jdbcTemplate.queryForObject(sql, new Object[]{username}, String.class);
+		}catch (EmptyResultDataAccessException e) {
+			return null;
+		}
+	}
+		
+	public void updateCustomer(CustomerModel customerModel){
+			System.out.println("EXCUTE UPDATE CUSTOMER");
+		  jdbcTemplate.update("UPDATE customer SET pw = ? , fullName = ? , address = ? WHERE username = ? ",
+				 customerModel.getPassword(), customerModel.getFullName(),customerModel.getAddress(),customerModel.getUsername());
+	
 	}
 
 

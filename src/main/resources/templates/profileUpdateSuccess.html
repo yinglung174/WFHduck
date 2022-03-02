@@ -17,17 +17,13 @@
 		<div class="container">
 			<div class="row justify-content-center">
 				<div class="col-md-6 text-center mb-5">
-					<h2 class="heading-section">Login</h2>
+					<h2 class="heading-section">Registration Success</h2>
 				</div>
 			</div>
 			<div class="row justify-content-center">
 				<div class="col-md-6 col-lg-4">
 					<div class="login-wrap p-0">
 		      	<h3 class="mb-4 text-center">Welcome <p th:text="${fullName}"></p></h3>
-		      	<form th:action="@{/updateCustomerProfile}" class="signin-form" method="get">
-		      	<input type="text" id="username" name="username" class="form-control" th:value="${username}" hidden>
-		      	<button id="submit" type="submit" class="form-control btn btn-primary submit px-3">Update Your Profile?</button>
-		      	</form>
 	          <p class="w-100 text-center"><a th:href="@{/index}">Logout</a></p>
 		      </div>
 				</div>

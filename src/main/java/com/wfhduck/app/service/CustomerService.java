@@ -16,8 +16,17 @@ public class CustomerService {
 	public void addCustomer(CustomerModel customerModel){
 		customerRepository.addCustomer(customerModel);
 	}
+	
 	public String findCustomerFullName(String username, String password) throws SQLException{
 		return customerRepository.findCustomerFullName(username,password);
+	}
+	
+	public String findCustomerProfile(String username) throws SQLException{
+		return customerRepository.findCustomerProfile(username);
+	}
+	
+	public void updateCustomer(CustomerModel customerModel){
+		customerRepository.updateCustomer(customerModel);
 	}
 
 }

@@ -1,5 +1,7 @@
 package com.wfhduck.app.controller;
 
+import java.sql.SQLException;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +40,28 @@ public class CustomerController {
 	    	customerModel.setPoints(50);
 	    	customerService.addCustomer(customerModel);
 	        return "registrationSuccess";
+	    }
+	    
+	    @RequestMapping("/profileProcess")
+	    public String profileProcess(HttpServletRequest request, Model model) throws SQLException{
+	    	customerModel = new CustomerModel();
+	    	String username = request.getParameter("username");
+			String password = request.getParameter("password");
+			String fullName = request.getParameter("fullName");
+			String address = request.getParameter("address");
+			String usernameFound = customerService.findCustomerProfile(username);
+			if(usernameFound !=null) {
+				customerModel.setUsername(username);
+		    	customerModel.setPassword(password);
+		    	customerModel.setFullName(fullName);
+		    	customerModel.setAddress(address);
+		    	customerService.updateCustomer(customerModel);
+			}
+			model.addAttribute("username",username);
+			model.addAttribute("password",password);
+			model.addAttribute("fullName",fullName);
+			model.addAttribute("address",address);
+	        return "profileUpdateSuccess";
 	    }
 	    
 	    

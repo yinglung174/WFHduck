@@ -37,11 +37,6 @@ public class HomeController{
         return "interface";
     }
 	
-	@GetMapping("/interface")
-	public String interfaces(HttpServletRequest request, Model model){
-        return "interface";
-    }
-	
 	@GetMapping("/loginFail")
 	public String loginFail(HttpServletRequest request, Model model){
         return "loginFail";
@@ -50,6 +45,13 @@ public class HomeController{
 	@GetMapping("/registration")
     public String registration(){
         return "registration";
+    }
+	
+	@GetMapping("/updateCustomerProfile")
+    public String updateCustomerProfile(HttpServletRequest request, Model model){
+		String username = request.getParameter("username");
+		model.addAttribute("username",username);
+        return "updateCustomerProfile";
     }
 	
 	
