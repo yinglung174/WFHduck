@@ -1,9 +1,15 @@
 package com.wfhduck.app.controller;
 
+import java.sql.SQLException;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+
+import com.wfhduck.app.service.CustomerService;
 
 @Controller
 public class HomeController{
@@ -13,9 +19,32 @@ public class HomeController{
         return "index";
     }
 	
-	@GetMapping("/main")
-	public String main(){
-        return "main";
+	@Autowired
+	CustomerService customerService;
+	
+	@GetMapping("/loginProcess")
+	public String loginProcess(HttpServletRequest request, Model model) throws SQLException{
+		String username = request.getParameter("username");
+		String password = request.getParameter("password");
+		model.addAttribute("username",username);
+		model.addAttribute("password",password);
+		String fullName = customerService.findCustomerFullName(username, password);
+		model.addAttribute("fullName",fullName);
+		if (fullName == null) {
+			return "loginFail";
+		}
+		model.addAttribute("fullName",fullName);
+        return "interface";
+    }
+	
+	@GetMapping("/interface")
+	public String interfaces(HttpServletRequest request, Model model){
+        return "interface";
+    }
+	
+	@GetMapping("/loginFail")
+	public String loginFail(HttpServletRequest request, Model model){
+        return "loginFail";
     }
 	
 	

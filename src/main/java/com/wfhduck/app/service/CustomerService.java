@@ -1,5 +1,7 @@
 package com.wfhduck.app.service;
 
+import java.sql.SQLException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +15,9 @@ public class CustomerService {
 	CustomerRepository customerRepository;
 	public void addCustomer(CustomerModel customerModel){
 		customerRepository.addCustomer(customerModel);
+	}
+	public String findCustomerFullName(String username, String password) throws SQLException{
+		return customerRepository.findCustomerFullName(username,password);
 	}
 
 }

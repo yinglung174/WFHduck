@@ -1,6 +1,9 @@
 package com.wfhduck.app.repository;
 
+import java.sql.SQLException;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -18,6 +21,16 @@ public class CustomerRepository {
 	  		+ "VALUES (?,?,?,?,?,?)",customerModel.getCId(), customerModel.getUsername(),
 	  		customerModel.getPassword(),customerModel.getFullName(),customerModel.getAddress(),customerModel.getPoints());
   }
+	
+	public String findCustomerFullName(String username, String password) throws SQLException{
+		try {
+		System.out.println("EXCUTE FIND CUSTOMER LOGIN");
+		String sql = "SELECT fullName FROM customer WHERE username = ? AND pw = ?";
+		return jdbcTemplate.queryForObject(sql, new Object[]{username,password}, String.class);
+		}catch (EmptyResultDataAccessException e) {
+			return null;
+		}
+	}
 
 
 }
