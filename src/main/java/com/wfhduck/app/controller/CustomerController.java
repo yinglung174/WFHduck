@@ -8,10 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.GetMapping;
 
+import com.wfhduck.app.model.AddressCoordinateConvertorModel;
 import com.wfhduck.app.model.CustomerModel;
+import com.wfhduck.app.service.AddressCoordinateConvertorService;
 import com.wfhduck.app.service.CustomerService;
 
 @Controller
@@ -21,9 +21,16 @@ public class CustomerController {
 		CustomerModel customerModel;
 		
 		@Autowired
+		AddressCoordinateConvertorModel addresscoordinateconvertorModel;
+		
+		@Autowired
 		CustomerService customerService;
+		
+		@Autowired
+		AddressCoordinateConvertorService addresscoordinateconvertorService;
+		
 	    @RequestMapping("/registrationProcess")
-	    public String registrationProcess(HttpServletRequest request, Model model){
+	    public String registrationProcess(HttpServletRequest request, Model model) throws SQLException{
 	    	customerModel = new CustomerModel();
 	    	String username = request.getParameter("username");
 			String password = request.getParameter("password");
@@ -38,7 +45,17 @@ public class CustomerController {
 	    	customerModel.setFullName(fullName);
 	    	customerModel.setAddress(address);
 	    	customerModel.setPoints(50);
+	    	String usernameFound = customerService.findCustomerProfile(username);
+	    	if(usernameFound!=null) {
+	    		return "index";
+	    	}
 	    	customerService.addCustomer(customerModel);
+	    	addresscoordinateconvertorModel.setAddress(address);
+	    	String addressFound = addresscoordinateconvertorService.findAddressCoordinateConvertorAddressFromAddress(address);
+	    	if(addressFound==null) {
+	    		addresscoordinateconvertorModel.randomAssignXY(addressFound);
+	    		addresscoordinateconvertorService.addAddressCoordinateConvertor(addresscoordinateconvertorModel);
+	    	}
 	        return "registrationSuccess";
 	    }
 	    
