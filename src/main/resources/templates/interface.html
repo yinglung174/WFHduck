@@ -38,6 +38,11 @@
 		      	<input type="text" id="username" name="username" class="form-control" th:value="${username}" hidden>
 		      	<button id="submit" type="submit" class="form-control btn btn-primary submit px-3">Report Problem</button>
 		      	</form>
+		      	<p> </p>
+		      	<form th:action="@{/readPersonalProblem}" class="signin-form" method="get">
+		      	<input type="text" id="username" name="username" class="form-control" th:value="${username}" hidden>
+		      	<button id="submit" type="submit" class="form-control btn btn-primary submit px-3">View Your Problem</button>
+		      	</form>
 	          <p class="w-100 text-center"><a th:href="@{/index}">Logout</a></p>
 		      </div>
 				</div>

@@ -1,6 +1,9 @@
 package com.wfhduck.app.repository;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -55,11 +58,22 @@ public class ProblemRepository {
 	
 	}
 	
-	public String findProblemCategoryFromUserId(Integer userId) throws SQLException{
+	public List<ProblemModel> findAllProblemFromUserId(Integer userId) throws SQLException{
 		try {
-			logger.debug("EXCUTE FIND PROBLEM CATEGORY FROM USERID");
-			String sql = "SELECT category FROM problem WHERE user_id = ?";
-		return jdbcTemplate.queryForObject(sql, new Object[]{userId}, String.class);
+			logger.debug("EXCUTE FIND ALL PROBLEM FROM USERID");
+			String sql = "SELECT * FROM problem WHERE user_id = "+userId;
+			List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql);
+	        List<ProblemModel> problems = new ArrayList<ProblemModel>();
+	        for (Map<String, Object> row : rows) {
+	        	ProblemModel problem = new ProblemModel();
+	            problem.setpId(Integer.parseInt(String.valueOf(row.get("pid"))));
+	            problem.setCategory(String.valueOf(row.get("category")));
+	            problem.setDescription(String.valueOf(row.get("description")));
+	            problem.setStatus(String.valueOf(row.get("status")));
+	            problem.setUserId(Integer.parseInt(String.valueOf(row.get("user_id"))));
+	            problems.add(problem);
+	        }
+	        return problems;
 		}catch (EmptyResultDataAccessException e) {
 			logger.fatal("FIND NULL: MISMATCH USERID");
 			return null;

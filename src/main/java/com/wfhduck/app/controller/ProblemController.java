@@ -1,6 +1,8 @@
 package com.wfhduck.app.controller;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -9,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.wfhduck.app.model.CustomerModel;
 import com.wfhduck.app.model.ProblemModel;
 import com.wfhduck.app.service.CustomerService;
 import com.wfhduck.app.service.ProblemService;
@@ -44,6 +47,20 @@ public class ProblemController {
 	    	problemModel.setUserId(userIdFound);
 	    	problemService.addProblem(problemModel);
 	        return "problemSubmitted";
+	    }
+		
+		@RequestMapping("/readPersonalProblem")
+	    public String readCustomerProfile(HttpServletRequest request, Model model) throws SQLException{
+	    	problemModel = new ProblemModel();
+	    	String username = request.getParameter("username");
+			Integer userIdFound = customerService.findCustomerUserId(username);
+			if(userIdFound==null) {
+				return "index";
+			}
+			model.addAttribute("username",username);
+			List<ProblemModel> problems = problemService.findAllProblemFromUserId(userIdFound);
+			model.addAttribute("problems", problems);
+	        return "viewPersonalProblem";
 	    }
 
 }

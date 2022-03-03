@@ -1,6 +1,7 @@
 package com.wfhduck.app.service;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,8 +30,8 @@ public class ProblemService {
 		problemRepository.updateProblemStatus(problemModel);
 	}
 	
-	public String findProblemCategoryFromUserId(Integer userId) throws SQLException{
-		return problemRepository.findProblemCategoryFromUserId(userId);
+	public List<ProblemModel> findAllProblemFromUserId(Integer userId) throws SQLException{
+		return problemRepository.findAllProblemFromUserId(userId);
 	}
 	
 	public String findProblemDescriptionFromPid(Integer pid) throws SQLException{
