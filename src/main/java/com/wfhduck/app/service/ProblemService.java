@@ -34,6 +34,10 @@ public class ProblemService {
 		return problemRepository.findAllProblemFromUserId(userId);
 	}
 	
+	public List<ProblemModel> findAllProblemFromStatus(String status) throws SQLException{
+		return problemRepository.findAllProblemFromStatus(status);
+	}
+	
 	public String findProblemDescriptionFromPid(Integer pid) throws SQLException{
 		return problemRepository.findProblemDescriptionFromPid(pid);
 	}

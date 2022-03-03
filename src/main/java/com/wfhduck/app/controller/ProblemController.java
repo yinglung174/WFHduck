@@ -11,7 +11,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.wfhduck.app.model.CustomerModel;
 import com.wfhduck.app.model.ProblemModel;
 import com.wfhduck.app.service.CustomerService;
 import com.wfhduck.app.service.ProblemService;
@@ -30,7 +29,7 @@ public class ProblemController {
 	
 	    
 		@RequestMapping("/problemProcess")
-	    public String registrationProcess(HttpServletRequest request, Model model) throws SQLException{
+	    public String problemProcess(HttpServletRequest request, Model model) throws SQLException{
 	    	problemModel = new ProblemModel();
 	    	String category = request.getParameter("category");
 			String description = request.getParameter("description");
@@ -50,7 +49,7 @@ public class ProblemController {
 	    }
 		
 		@RequestMapping("/readPersonalProblem")
-	    public String readCustomerProfile(HttpServletRequest request, Model model) throws SQLException{
+	    public String readPersonalProblem(HttpServletRequest request, Model model) throws SQLException{
 	    	problemModel = new ProblemModel();
 	    	String username = request.getParameter("username");
 			Integer userIdFound = customerService.findCustomerUserId(username);
@@ -61,6 +60,16 @@ public class ProblemController {
 			List<ProblemModel> problems = problemService.findAllProblemFromUserId(userIdFound);
 			model.addAttribute("problems", problems);
 	        return "viewPersonalProblem";
+	    }
+		
+		@RequestMapping("/readOpeningProblem")
+	    public String readOpeningProblem(HttpServletRequest request, Model model) throws SQLException{
+	    	problemModel = new ProblemModel();
+	    	String username = request.getParameter("username");
+			model.addAttribute("username",username);
+			List<ProblemModel> problems = problemService.findAllProblemFromStatus("Open");
+			model.addAttribute("problems", problems);
+	        return "viewOpenProblem";
 	    }
 
 }

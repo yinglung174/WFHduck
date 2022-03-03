@@ -80,6 +80,28 @@ public class ProblemRepository {
 		}
 	}
 	
+	public List<ProblemModel> findAllProblemFromStatus(String status) throws SQLException{
+		try {
+			logger.debug("EXCUTE FIND ALL PROBLEM FROM STATUS");
+			String sql = "SELECT * FROM problem WHERE status = '" + status + "'";
+			List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql);
+	        List<ProblemModel> problems = new ArrayList<ProblemModel>();
+	        for (Map<String, Object> row : rows) {
+	        	ProblemModel problem = new ProblemModel();
+	            problem.setpId(Integer.parseInt(String.valueOf(row.get("pid"))));
+	            problem.setCategory(String.valueOf(row.get("category")));
+	            problem.setDescription(String.valueOf(row.get("description")));
+	            problem.setStatus(String.valueOf(row.get("status")));
+	            problem.setUserId(Integer.parseInt(String.valueOf(row.get("user_id"))));
+	            problems.add(problem);
+	        }
+	        return problems;
+		}catch (EmptyResultDataAccessException e) {
+			logger.fatal("FIND NULL: MISMATCH STATUS");
+			return null;
+		}
+	}
+	
 	public String findProblemDescriptionFromPid(Integer pid) throws SQLException{
 		try {
 			logger.debug("EXCUTE FIND PROBLEM DESCRIPTION FROM PID");
