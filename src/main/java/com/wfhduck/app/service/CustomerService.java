@@ -48,5 +48,9 @@ public class CustomerService {
 	public Integer findCustomerPoints(String username) throws SQLException{
 		return customerRepository.findCustomerPoints(username);
 	}
+	
+	public Integer findCustomerUserId(String username) throws SQLException{
+		return customerRepository.findCustomerUserId(username);
+	}
 
 }

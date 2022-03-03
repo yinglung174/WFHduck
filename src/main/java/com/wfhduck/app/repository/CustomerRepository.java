@@ -105,6 +105,17 @@ public class CustomerRepository {
 			return null;
 		}
 	}
+	
+	public Integer findCustomerUserId(String username) throws SQLException{
+		try {
+			logger.debug("EXCUTE FIND CUSTOMER USERID");
+			String sql = "SELECT user_id FROM customer WHERE username = ?";
+		return jdbcTemplate.queryForObject(sql, new Object[]{username}, Integer.class);
+		}catch (EmptyResultDataAccessException e) {
+			logger.fatal("FIND NULL: MISMATCH USERNAME FOR USERID");
+			return null;
+		}
+	}
 
 
 }

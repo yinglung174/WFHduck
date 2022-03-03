@@ -17,28 +17,17 @@
 		<div class="container">
 			<div class="row justify-content-center">
 				<div class="col-md-6 text-center mb-5">
-					<h2 class="heading-section">Login</h2>
+					<h2 class="heading-section">Problem Submitted</h2>
 				</div>
 			</div>
 			<div class="row justify-content-center">
 				<div class="col-md-6 col-lg-4">
 					<div class="login-wrap p-0">
-		      	<h3 class="mb-4 text-center">Welcome <p th:text="${fullName}"></p></h3>
-		      	<form th:action="@{/readCustomerProfile}" class="signin-form" method="get">
+		      	<h3 class="mb-4 text-center">Your problem will be handled soon.</h3>
+	          <form th:action="@{/backToInterface}" class="signin-form" method="get">
 		      	<input type="text" id="username" name="username" class="form-control" th:value="${username}" hidden>
-		      	<button id="submit" type="submit" class="form-control btn btn-primary submit px-3">View Profile</button>
-		      	</form>
-		      	<p> </p>
-		      	<form th:action="@{/changePassword}" class="signin-form" method="get">
-		      	<input type="text" id="username" name="username" class="form-control" th:value="${username}" hidden>
-		      	<button id="submit" type="submit" class="form-control btn btn-primary submit px-3">Change Password</button>
-		      	</form>
-		      	<p> </p>
-		      	<form th:action="@{/reportProblem}" class="signin-form" method="get">
-		      	<input type="text" id="username" name="username" class="form-control" th:value="${username}" hidden>
-		      	<button id="submit" type="submit" class="form-control btn btn-primary submit px-3">Report Problem</button>
-		      	</form>
-	          <p class="w-100 text-center"><a th:href="@{/index}">Logout</a></p>
+		      	<button id="submit" type="submit" class="form-control btn btn-primary submit px-3">Back</button>
+		      </form>
 		      </div>
 				</div>
 			</div>

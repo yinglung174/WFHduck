@@ -54,5 +54,12 @@ public class HomeController{
         return "updateCustomerProfile";
     }
 	
+	@GetMapping("/reportProblem")
+    public String reportProblem(HttpServletRequest request, Model model){
+		String username = request.getParameter("username");
+		model.addAttribute("username",username);
+        return "reportProblem";
+    }
+	
 	
 }
