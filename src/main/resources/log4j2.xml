@@ -28,10 +28,10 @@
 	
     <Loggers>
         <!-- avoid duplicated logs with additivity=false -->
-        <Logger name="com.wfhduck.app" level="debug">
+        <Logger name="com.wfhduck.app" level="debug" additivity="false">
             <AppenderRef ref="LogToRollingFile"/>
         </Logger>
-        <Logger name="com.wfhduck.app" level="fatal">
+        <Logger name="com.wfhduck.app" level="fatal" additivity="false">
             <AppenderRef ref="LogToRollingFatalFile"/>
         </Logger>
         <Root level="error">
