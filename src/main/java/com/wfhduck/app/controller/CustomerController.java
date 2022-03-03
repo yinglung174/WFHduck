@@ -75,6 +75,12 @@ public class CustomerController {
 			model.addAttribute("username",username);
 			model.addAttribute("fullName",fullName);
 			model.addAttribute("address",address);
+			addresscoordinateconvertorModel.setAddress(address);
+	    	String addressFound = addresscoordinateconvertorService.findAddressCoordinateConvertorAddressFromAddress(address);
+	    	if(addressFound==null) {
+	    		addresscoordinateconvertorModel.randomAssignXY(addressFound);
+	    		addresscoordinateconvertorService.addAddressCoordinateConvertor(addresscoordinateconvertorModel);
+	    	}
 	        return "profileUpdateSuccess";
 	    }
 	    
