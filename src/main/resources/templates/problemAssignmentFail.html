@@ -17,28 +17,17 @@
 		<div class="container">
 			<div class="row justify-content-center">
 				<div class="col-md-6 text-center mb-5">
-					<h2 class="heading-section">View Your Problem</h2>
+					<h2 class="heading-section">Problem Fail to Assign.</h2>
 				</div>
 			</div>
 			<div class="row justify-content-center">
 				<div class="col-md-6 col-lg-4">
 					<div class="login-wrap p-0">
-		      	<h3 class="mb-4 text-center"><p th:text="${username}"></p></h3>
-		      <table style="width:100%">
-		      	  <tr>
-		      	  	<th>Category</th>
-		      	  	<th>Description</th>
-		      	  	<th>Status</th>
-				  <tr th:each="problem: ${problems}">
-				    <td><p th:text="${problem.category}"></p></td>
-				    <td><p th:text="${problem.description}"></p></td>
-				    <td><p th:text="${problem.status}"></p></td>
-				  </tr>
-				</table>
-		      	<form th:action="@{/backToInterface}" class="signin-form" method="get">
+		      	<h3 class="mb-4 text-center">You cannot handle your own problem! Please wait the help from other technician.</h3>
+	          <form th:action="@{/backToInterface}" class="signin-form" method="get">
 		      	<input type="text" id="username" name="username" class="form-control" th:value="${username}" hidden>
 		      	<button id="submit" type="submit" class="form-control btn btn-primary submit px-3">Back</button>
-		      	</form>
+		      </form>
 		      </div>
 				</div>
 			</div>

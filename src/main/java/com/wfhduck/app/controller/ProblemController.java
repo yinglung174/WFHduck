@@ -71,5 +71,25 @@ public class ProblemController {
 			model.addAttribute("problems", problems);
 	        return "viewOpenProblem";
 	    }
+		
+		@RequestMapping("/problemAssignmentProcess")
+	    public String problemAssignmentProcess(HttpServletRequest request, Model model) throws SQLException{
+	    	problemModel = new ProblemModel();
+	    	String username = request.getParameter("username");
+	    	Integer pId = Integer.parseInt(request.getParameter("pid"));
+			model.addAttribute("username",username);
+			Integer userIdFoundFromCustomer = customerService.findCustomerUserId(username);
+			Integer userIdFoundFromProblem = problemService.findProblemUserIdFromPId(pId);
+			if(userIdFoundFromCustomer == userIdFoundFromProblem) {
+				return "problemAssignmentFail";
+			}
+			problemModel.setpId(pId);
+			problemModel.setCategory(problemService.findProblemCategoryFromPId(pId));
+			problemModel.setDescription(problemService.findProblemDescriptionFromPid(pId));
+			problemModel.setStatus("Waiting for Payment");
+			problemModel.setUserId(userIdFoundFromProblem);
+			problemService.updateProblemStatus(problemModel);
+	        return "problemAssignment";
+	    }
 
 }
