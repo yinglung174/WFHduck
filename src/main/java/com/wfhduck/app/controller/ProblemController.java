@@ -1,7 +1,6 @@
 package com.wfhduck.app.controller;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,8 +10,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.wfhduck.app.model.InvoiceModel;
 import com.wfhduck.app.model.ProblemModel;
+import com.wfhduck.app.service.AddressCoordinateConvertorService;
 import com.wfhduck.app.service.CustomerService;
+import com.wfhduck.app.service.InvoiceService;
 import com.wfhduck.app.service.ProblemService;
 
 @Controller
@@ -22,10 +24,19 @@ public class ProblemController {
 		ProblemModel problemModel;
 		
 		@Autowired
+		InvoiceModel invoiceModel;
+		
+		@Autowired
 		ProblemService problemService;
 		
 		@Autowired
 		CustomerService customerService;
+		
+		@Autowired
+		InvoiceService invoiceService;
+		
+		@Autowired
+		AddressCoordinateConvertorService addressCoordinateConvertorService;
 	
 	    
 		@RequestMapping("/problemProcess")
@@ -86,9 +97,24 @@ public class ProblemController {
 			problemModel.setpId(pId);
 			problemModel.setCategory(problemService.findProblemCategoryFromPId(pId));
 			problemModel.setDescription(problemService.findProblemDescriptionFromPid(pId));
-			problemModel.setStatus("Waiting for Payment");
+			problemModel.setStatus("Handling");
 			problemModel.setUserId(userIdFoundFromProblem);
 			problemService.updateProblemStatus(problemModel);
+			invoiceModel.setCustomerId(userIdFoundFromProblem);
+			invoiceModel.setTechnicianId(userIdFoundFromCustomer);
+			invoiceModel.setProblemId(pId);
+			String addressFoundFromCustomer = customerService.findCustomerAddress(username);
+			String usernameFoundFromProblem = customerService.findCustomerUsername(userIdFoundFromProblem);
+			String addressFoundFromProblem = customerService.findCustomerAddress(usernameFoundFromProblem);
+			Double xFoundFromCustomer = addressCoordinateConvertorService.findAddressCoordinateConvertorX(addressFoundFromCustomer);
+			Double yFoundFromCustomer = addressCoordinateConvertorService.findAddressCoordinateConvertorY(addressFoundFromCustomer);
+			Double xFoundFromProblem = addressCoordinateConvertorService.findAddressCoordinateConvertorX(addressFoundFromProblem);
+			Double yFoundFromProblem = addressCoordinateConvertorService.findAddressCoordinateConvertorY(addressFoundFromProblem);
+			Double distance = invoiceModel.calculateDistanceFromCoordinate(xFoundFromCustomer, xFoundFromProblem, yFoundFromCustomer, yFoundFromProblem);
+			invoiceModel.setDistance(distance);
+			Integer transportFee = invoiceModel.calculateTransportFeeFromDistance(distance);
+			invoiceModel.setTransportFee(transportFee);
+			invoiceService.addInvoice(invoiceModel);
 	        return "problemAssignment";
 	    }
 

@@ -44,22 +44,22 @@ public class AddressCoordinateConvertorRepository {
 	
 	}
 	
-	public String findAddressCoordinateConvertorX(String address) throws SQLException{
+	public Double findAddressCoordinateConvertorX(String address) throws SQLException{
 		try {
 			logger.debug("EXCUTE FIND ACC X");
 			String sql = "SELECT coordinate_x FROM addresscoordinateconvertor WHERE address = ?";
-		return jdbcTemplate.queryForObject(sql, new Object[]{address}, String.class);
+		return jdbcTemplate.queryForObject(sql, new Object[]{address}, Double.class);
 		}catch (EmptyResultDataAccessException e) {
 			logger.fatal("FIND NULL: MISMATCH ADDRESS FOR X");
 			return null;
 		}
 	}
 	
-	public String findAddressCoordinateConvertorY(String address) throws SQLException{
+	public Double findAddressCoordinateConvertorY(String address) throws SQLException{
 		try {
 			logger.debug("EXCUTE FIND ACC Y");
 			String sql = "SELECT coordinate_y FROM addresscoordinateconvertor WHERE address = ?";
-		return jdbcTemplate.queryForObject(sql, new Object[]{address}, String.class);
+		return jdbcTemplate.queryForObject(sql, new Object[]{address}, Double.class);
 		}catch (EmptyResultDataAccessException e) {
 			logger.fatal("FIND NULL: MISMATCH ADDRESS FOR Y");
 			return null;

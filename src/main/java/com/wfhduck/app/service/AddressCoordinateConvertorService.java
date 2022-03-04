@@ -27,11 +27,11 @@ public class AddressCoordinateConvertorService {
 	
 	}
 	
-	public String findAddressCoordinateConvertorX(String address) throws SQLException{
+	public Double findAddressCoordinateConvertorX(String address) throws SQLException{
 		return addresscoordinateconvertorRepository.findAddressCoordinateConvertorX(address);
 	}
 	
-	public String findAddressCoordinateConvertorY(String address) throws SQLException{
+	public Double findAddressCoordinateConvertorY(String address) throws SQLException{
 		return addresscoordinateconvertorRepository.findAddressCoordinateConvertorY(address);
 	}
 	

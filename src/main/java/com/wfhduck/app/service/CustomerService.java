@@ -52,5 +52,9 @@ public class CustomerService {
 	public Integer findCustomerUserId(String username) throws SQLException{
 		return customerRepository.findCustomerUserId(username);
 	}
+	
+	public String findCustomerUsername(Integer userId) throws SQLException{
+		return customerRepository.findCustomerUsername(userId);
+	}
 
 }
