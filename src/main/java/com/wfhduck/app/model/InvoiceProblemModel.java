@@ -3,7 +3,7 @@ package com.wfhduck.app.model;
 import org.springframework.stereotype.Component;
 
 @Component
-public class InvoiceModel {
+public class InvoiceProblemModel {
 	private Integer oId;
 
 	private Integer customerId;
@@ -19,6 +19,12 @@ public class InvoiceModel {
 	private Integer serviceFee;
 	
 	private Double distance;
+	
+	private String category;
+	
+	private String description;
+	
+	private String pStatus;
 
 	public Integer getOId() {
 		return oId;
@@ -84,6 +90,30 @@ public class InvoiceModel {
 		this.distance = distance;
 	}
 	
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
+	}
+	
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public String getPStatus() {
+		return pStatus;
+	}
+
+	public void setPStatus(String pStatus) {
+		this.pStatus = pStatus;
+	}
+	
 	public Double calculateDistanceFromCoordinate(Double lat1, Double lon1, Double lat2, Double lon2) { //userX, techX, userY, techY
 		  Double theta = lon1 - lon2;
 		  Double dist = Math.sin(deg2rad(lat1)) * Math.sin(deg2rad(lat2)) + Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.cos(deg2rad(theta));
@@ -91,7 +121,7 @@ public class InvoiceModel {
 	      dist = rad2deg(dist);
 	      dist = dist * 60 * 1.1515; //M
 	     // dist = dist * 1.609344; //KM
-	      return (double) Math.round(dist);
+	      return (dist);
 	}
 	
 	private Double deg2rad(Double deg) {
