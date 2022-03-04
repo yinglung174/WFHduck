@@ -158,6 +158,17 @@ public class InvoiceRepository {
 		}
 	}
 	
+	public Integer findInoviceCustomerIdFromOId(Integer oId) throws SQLException{
+		try {
+			logger.debug("EXCUTE FIND INVOICE CUSTOMERID FROM OID");
+			String sql = "SELECT customer_id FROM invoice WHERE oid = ?";
+		return jdbcTemplate.queryForObject(sql, new Object[]{oId}, Integer.class);
+		}catch (EmptyResultDataAccessException e) {
+			logger.fatal("FIND NULL: MISMATCH OID");
+			return null;
+		}
+	}
+	
 	public Integer findInoviceOIdFromProblemId(Integer problemId) throws SQLException{
 		try {
 			logger.debug("EXCUTE FIND INVOICE OID FROM PROBLEMID");

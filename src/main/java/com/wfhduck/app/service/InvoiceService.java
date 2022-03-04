@@ -57,5 +57,9 @@ public class InvoiceService {
 	public Double findInoviceDistanceFromOId(Integer oId) throws SQLException{
 		return invoiceRepository.findInoviceDistanceFromOId(oId);
 	}
+	
+	public Integer findInoviceCustomerIdFromOId(Integer oId) throws SQLException{
+		return invoiceRepository.findInoviceCustomerIdFromOId(oId);
+	}
 
 }

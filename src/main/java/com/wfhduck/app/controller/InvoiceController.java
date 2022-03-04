@@ -107,7 +107,7 @@ public class InvoiceController {
 			model.addAttribute("username",username);
 			Integer invoiceId = Integer.parseInt(request.getParameter("oid"));
 			Integer points = customerService.findCustomerPoints(username);
-			Integer customerId = invoiceService.findInoviceTechnicianIdFromOId(invoiceId);
+			Integer customerId = invoiceService.findInoviceCustomerIdFromOId(invoiceId);
 			String customerUsername = customerService.findCustomerUsername(customerId);
 			String customerAddress = customerService.findCustomerAddress(customerUsername);
 			Integer transportFee = invoiceService.findInoviceTransportFeeFromOId(invoiceId);
@@ -142,6 +142,25 @@ public class InvoiceController {
 			model.addAttribute("username",username);
 			model.addAttribute("points",points);
 	        return "arrivedAddressProcess";
+	    }
+		
+		@RequestMapping("/payServiceProcess")
+	    public String payServiceProcess(HttpServletRequest request, Model model) throws SQLException{
+	    	String username = request.getParameter("username");
+			model.addAttribute("username",username);
+			Integer invoiceId = Integer.parseInt(request.getParameter("oid"));
+			Integer points = customerService.findCustomerPoints(username);
+			Integer customerId = invoiceService.findInoviceTechnicianIdFromOId(invoiceId);
+			String customerUsername = customerService.findCustomerUsername(customerId);
+			String customerAddress = customerService.findCustomerAddress(customerUsername);
+			Integer transportFee = invoiceService.findInoviceTransportFeeFromOId(invoiceId);
+			Double distance= invoiceService.findInoviceDistanceFromOId(invoiceId);
+			model.addAttribute("points",points);
+			model.addAttribute("address",customerAddress);
+			model.addAttribute("oId",invoiceId);
+			model.addAttribute("transportFee",transportFee);
+			model.addAttribute("distance",distance);
+	        return "submitServiceProcess";
 	    }
 
 }
