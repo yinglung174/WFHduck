@@ -33,8 +33,13 @@ public class InvoiceRepository {
 			logger.debug("EXCUTE UPDATE INVOICE STATUS");
 		  jdbcTemplate.update("UPDATE invoice SET status = ? WHERE oid = ? ",
 				 invoiceModel.getStatus(),invoiceModel.getOId());
-	
 	}
+	
+	public void updateInvoiceServiceFee(InvoiceModel invoiceModel){
+		logger.debug("EXCUTE UPDATE INVOICE SERVICEFEE");
+	  jdbcTemplate.update("UPDATE invoice SET service_fee = ? WHERE oid = ? ",
+			 invoiceModel.getServiceFee(),invoiceModel.getOId());
+}
 	
 	public List<InvoiceModel> findAllInvoiceFromCustomerId(Integer customerId) throws SQLException{
 		try {

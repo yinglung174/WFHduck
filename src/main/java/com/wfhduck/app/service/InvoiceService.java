@@ -22,6 +22,10 @@ public class InvoiceService {
 		invoiceRepository.updateInvoiceStatus(invoiceModel);
 	}
 	
+	public void updateInvoiceServiceFee(InvoiceModel invoiceModel){
+		invoiceRepository.updateInvoiceServiceFee(invoiceModel);
+	}
+	
 	public List<InvoiceModel> findAllInvoiceFromCustomerId(Integer customerId) throws SQLException{
 		return invoiceRepository.findAllInvoiceFromCustomerId(customerId);
 	}

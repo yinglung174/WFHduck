@@ -150,17 +150,31 @@ public class InvoiceController {
 			model.addAttribute("username",username);
 			Integer invoiceId = Integer.parseInt(request.getParameter("oid"));
 			Integer points = customerService.findCustomerPoints(username);
-			Integer customerId = invoiceService.findInoviceTechnicianIdFromOId(invoiceId);
-			String customerUsername = customerService.findCustomerUsername(customerId);
-			String customerAddress = customerService.findCustomerAddress(customerUsername);
-			Integer transportFee = invoiceService.findInoviceTransportFeeFromOId(invoiceId);
-			Double distance= invoiceService.findInoviceDistanceFromOId(invoiceId);
 			model.addAttribute("points",points);
-			model.addAttribute("address",customerAddress);
 			model.addAttribute("oId",invoiceId);
-			model.addAttribute("transportFee",transportFee);
-			model.addAttribute("distance",distance);
 	        return "submitServiceProcess";
+	    }
+		
+		@RequestMapping("/submitServiceRequestProcess")
+	    public String submitServiceRequestProcess(HttpServletRequest request, Model model) throws SQLException{
+			technicianModel = new CustomerModel();
+			invoiceModel = new InvoiceModel();
+	    	String username = request.getParameter("username");
+			Integer invoiceId = Integer.parseInt(request.getParameter("oid"));
+			Integer points = customerService.findCustomerPoints(username);
+			Integer serviceFee = Integer.parseInt(request.getParameter("serviceFee"));
+			invoiceModel.setOId(invoiceId);
+			invoiceModel.setServiceFee(serviceFee);
+			invoiceModel.setStatus("Waiting for confirmation");
+			invoiceService.updateInvoiceStatus(invoiceModel);		//updating invoice status to be 'Waiting for confirmation'
+			invoiceService.updateInvoiceServiceFee(invoiceModel);	//updating service fee
+			Integer problemId = invoiceService.findInoviceProblemIdFromOId(invoiceId);
+			problemModel.setpId(problemId);
+			problemModel.setStatus("Solved");
+			problemService.updateProblemStatus(problemModel);		//updating problem status to be 'Solved'
+			model.addAttribute("username",username);
+			model.addAttribute("points",points);
+	        return "submittedServiceRequestProcess";
 	    }
 
 }
