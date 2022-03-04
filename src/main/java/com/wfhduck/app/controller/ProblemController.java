@@ -64,12 +64,14 @@ public class ProblemController {
 	    	problemModel = new ProblemModel();
 	    	String username = request.getParameter("username");
 			Integer userIdFound = customerService.findCustomerUserId(username);
+			Integer points = customerService.findCustomerPoints(username);
 			if(userIdFound==null) {
 				return "index";
 			}
 			model.addAttribute("username",username);
 			List<ProblemModel> problems = problemService.findAllProblemFromUserId(userIdFound);
 			model.addAttribute("problems", problems);
+			model.addAttribute("points", points);
 	        return "viewPersonalProblem";
 	    }
 		

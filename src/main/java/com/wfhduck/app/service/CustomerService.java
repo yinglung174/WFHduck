@@ -29,6 +29,10 @@ public class CustomerService {
 		customerRepository.updateCustomer(customerModel);
 	}
 	
+	public void updateCustomerPoints(CustomerModel customerModel){
+		customerRepository.updateCustomerPoints(customerModel);
+	}
+	
 	public void updateCustomerPassword(CustomerModel customerModel){
 		customerRepository.updateCustomerPassword(customerModel);
 	}

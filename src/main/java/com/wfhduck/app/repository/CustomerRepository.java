@@ -57,10 +57,17 @@ public class CustomerRepository {
 	
 	public void updateCustomerPassword(CustomerModel customerModel){
 			logger.debug("EXCUTE UPDATE CUSTOMER PASSWORD");
-	  jdbcTemplate.update("UPDATE customer SET pw = ?  WHERE username = ? ",
+			jdbcTemplate.update("UPDATE customer SET pw = ?  WHERE username = ? ",
 			 customerModel.getPassword(), customerModel.getUsername());
 
-}
+	}
+	
+	public void updateCustomerPoints(CustomerModel customerModel){
+		logger.debug("EXCUTE UPDATE CUSTOMER POINTS");
+		jdbcTemplate.update("UPDATE customer SET points = ?  WHERE username = ? ",
+		 customerModel.getPoints(), customerModel.getUsername());
+
+	}
 	
 	public String findCustomerPassword(String username) throws SQLException{
 		try {
