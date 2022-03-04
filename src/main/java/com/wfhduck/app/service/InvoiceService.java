@@ -46,5 +46,16 @@ public class InvoiceService {
 		return invoiceRepository.findInoviceOIdFromProblemId(problemId);
 	}
 	
+	public Integer findInoviceTechnicianIdFromOId(Integer oId) throws SQLException{
+		return invoiceRepository.findInoviceTechnicianIdFromOId(oId);
+	}
+	
+	public Integer findInoviceTransportFeeFromOId(Integer oId) throws SQLException{
+		return invoiceRepository.findInoviceTransportFeeFromOId(oId);
+	}
+	
+	public Double findInoviceDistanceFromOId(Integer oId) throws SQLException{
+		return invoiceRepository.findInoviceDistanceFromOId(oId);
+	}
 
 }

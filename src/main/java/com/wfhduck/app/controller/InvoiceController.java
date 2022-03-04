@@ -26,6 +26,9 @@ public class InvoiceController {
 	
 		@Autowired
 		CustomerModel customerModel;
+		
+		@Autowired
+		CustomerModel technicianModel;
 	
 		@Autowired
 		ProblemModel problemModel;
@@ -78,14 +81,14 @@ public class InvoiceController {
 	    public String payInvoiceProcess(HttpServletRequest request, Model model) throws SQLException{
 			invoiceModel = new InvoiceModel();
 			customerModel = new CustomerModel();
+			technicianModel = new CustomerModel();
 	    	String username = request.getParameter("username");
 	    	Integer transportFee = Integer.parseInt(request.getParameter("transportFee"));
 			Integer invoiceId = Integer.parseInt(request.getParameter("oid"));
 			Integer points = customerService.findCustomerPoints(username);
-			points = points - transportFee;
 			customerModel.setUsername(username);
-			customerModel.setPoints(points); 					
-			customerService.updateCustomerPoints(customerModel);	//handling points reduction
+			customerModel.setPoints(points - transportFee); 					
+			customerService.updateCustomerPoints(customerModel);	//handling points reduction for customer
 			invoiceModel.setOId(invoiceId);
 			invoiceModel.setStatus("Paid");
 			invoiceService.updateInvoiceStatus(invoiceModel);		//updating invoice status to be 'Paid'
@@ -98,6 +101,47 @@ public class InvoiceController {
 	        return "paidInvoiceProcess";
 	    }
 		
+		@RequestMapping("/readAddressProcess")
+	    public String readAddressProcess(HttpServletRequest request, Model model) throws SQLException{
+	    	String username = request.getParameter("username");
+			model.addAttribute("username",username);
+			Integer invoiceId = Integer.parseInt(request.getParameter("oid"));
+			Integer points = customerService.findCustomerPoints(username);
+			Integer customerId = invoiceService.findInoviceTechnicianIdFromOId(invoiceId);
+			String customerUsername = customerService.findCustomerUsername(customerId);
+			String customerAddress = customerService.findCustomerAddress(customerUsername);
+			Integer transportFee = invoiceService.findInoviceTransportFeeFromOId(invoiceId);
+			Double distance= invoiceService.findInoviceDistanceFromOId(invoiceId);
+			model.addAttribute("points",points);
+			model.addAttribute("address",customerAddress);
+			model.addAttribute("oId",invoiceId);
+			model.addAttribute("transportFee",transportFee);
+			model.addAttribute("distance",distance);
+	        return "viewAddressProcess";
+	    }
 		
+		@RequestMapping("/arriveAddressProcess")
+	    public String arriveAddressProcess(HttpServletRequest request, Model model) throws SQLException{
+			technicianModel = new CustomerModel();
+	    	String username = request.getParameter("username");
+			Integer invoiceId = Integer.parseInt(request.getParameter("oid"));
+			Integer points = customerService.findCustomerPoints(username);
+			Integer transportFee = Integer.parseInt(request.getParameter("transportFee"));
+			Integer technicianID = invoiceService.findInoviceTechnicianIdFromOId(invoiceId);
+			String technicianUsername = customerService.findCustomerUsername(technicianID);
+			technicianModel.setUsername(technicianUsername);
+			technicianModel.setPoints(points + transportFee);
+			customerService.updateCustomerPoints(technicianModel);	//handling points increase for technician
+			invoiceModel.setOId(invoiceId);
+			invoiceModel.setStatus("Processing");
+			invoiceService.updateInvoiceStatus(invoiceModel);		//updating invoice status to be 'Processing'
+			Integer problemId = invoiceService.findInoviceProblemIdFromOId(invoiceId);
+			problemModel.setpId(problemId);
+			problemModel.setStatus("Arrived");
+			problemService.updateProblemStatus(problemModel);		//updating problem status to be 'Arrived'
+			model.addAttribute("username",username);
+			model.addAttribute("points",points);
+	        return "arrivedAddressProcess";
+	    }
 
 }

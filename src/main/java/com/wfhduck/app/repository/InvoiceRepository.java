@@ -147,6 +147,17 @@ public class InvoiceRepository {
 		}
 	}
 	
+	public Integer findInoviceTechnicianIdFromOId(Integer oId) throws SQLException{
+		try {
+			logger.debug("EXCUTE FIND INVOICE TECHNICIAN FROM OID");
+			String sql = "SELECT technician_id FROM invoice WHERE oid = ?";
+		return jdbcTemplate.queryForObject(sql, new Object[]{oId}, Integer.class);
+		}catch (EmptyResultDataAccessException e) {
+			logger.fatal("FIND NULL: MISMATCH OID");
+			return null;
+		}
+	}
+	
 	public Integer findInoviceOIdFromProblemId(Integer problemId) throws SQLException{
 		try {
 			logger.debug("EXCUTE FIND INVOICE OID FROM PROBLEMID");
@@ -157,5 +168,27 @@ public class InvoiceRepository {
 			return null;
 		}
 	}
+		
+		public Double findInoviceDistanceFromOId(Integer oId) throws SQLException{
+			try {
+				logger.debug("EXCUTE FIND INVOICE DISTANCE FROM OID");
+				String sql = "SELECT distance FROM invoice WHERE oid = ?";
+			return jdbcTemplate.queryForObject(sql, new Object[]{oId}, Double.class);
+			}catch (EmptyResultDataAccessException e) {
+				logger.fatal("FIND NULL: MISMATCH OID");
+				return null;
+			}
+		}
+		
+		public Integer findInoviceTransportFeeFromOId(Integer oId) throws SQLException{
+			try {
+				logger.debug("EXCUTE FIND INVOICE TRANSPORTFEE FROM OID");
+				String sql = "SELECT transport_fee FROM invoice WHERE oid = ?";
+			return jdbcTemplate.queryForObject(sql, new Object[]{oId}, Integer.class);
+			}catch (EmptyResultDataAccessException e) {
+				logger.fatal("FIND NULL: MISMATCH OID");
+				return null;
+			}
+		}
 
 }
