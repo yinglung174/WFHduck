@@ -91,9 +91,11 @@ public class CustomerController {
 			String usernameFound = customerService.findCustomerProfile(username);
 			String fullNameFound = customerService.findCustomerFullName(username);
 			String addressFound = customerService.findCustomerAddress(username);
+			Integer points =customerService.findCustomerPoints(usernameFound);
 			model.addAttribute("username",usernameFound);
 			model.addAttribute("fullName",fullNameFound);
 			model.addAttribute("address",addressFound);
+			model.addAttribute("points",points);
 	        return "viewCustomerProfile";
 	    }
 	    

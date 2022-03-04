@@ -37,6 +37,10 @@
 				    <th>Address</th>
 				    <td><p th:text="${address}"></p></td>
 				  </tr>
+				  <tr>
+				    <th>Points</th>
+				    <td><p th:text="${points}"></p></td>
+				  </tr>
 				</table>
 				<form th:action="@{/updateCustomerProfile}" class="signin-form" method="get">
 		      	<input type="text" id="username" name="username" class="form-control" th:value="${username}" hidden>
