@@ -49,6 +49,11 @@
 				  	<input type="text" id="oid" name="oid" class="form-control" th:value="${problemInvoice.oId}" hidden>
 				    <td><button id="submit" type="submit" class="px-2 py-2 mr-md-1 rounded" th:if="${problemInvoice.status == 'Processing'}">Solved Problem</button></td>
 				    	</form>
+				    	<form th:action="@{/removeInvoice}" class="signin-form" method="get" th:if="${problemInvoice.status == 'Wait for payment'}">
+				  	<input type="text" id="username" name="username" class="form-control" th:value="${username}" hidden>
+				  	<input type="text" id="oid" name="oid" class="form-control" th:value="${problemInvoice.oId}" hidden>
+				    <td><button id="submit" type="submit" class="px-2 py-2 mr-md-1 rounded" th:if="${problemInvoice.status == 'Wait for payment'}">Remove</button></td>
+				    	</form>
 				  </tr>
 				</table>
 				<p> </p>

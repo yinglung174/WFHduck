@@ -50,4 +50,7 @@ public class ProblemService {
 		return problemRepository.findProblemUserIdFromPId(pid);
 	}
 
+	public void deleteProblem(ProblemModel problemModel){
+		problemRepository.deleteProblem(problemModel);
+	}
 }

@@ -58,6 +58,13 @@ public class ProblemRepository {
 	
 	}
 	
+	public void deleteProblem(ProblemModel problemModel){
+		logger.debug("EXCUTE DELETE PROBLEM");
+	  jdbcTemplate.update("DELETE FROM problem WHERE pid = ? ",
+			 problemModel.getPId());
+
+}
+	
 	public List<ProblemModel> findAllProblemFromUserId(Integer userId) throws SQLException{
 		try {
 			logger.debug("EXCUTE FIND ALL PROBLEM FROM USERID");

@@ -35,6 +35,12 @@ public class InvoiceRepository {
 				 invoiceModel.getStatus(),invoiceModel.getOId());
 	}
 	
+	public void deleteInvoice(InvoiceModel invoiceModel){
+		logger.debug("EXCUTE DELETE INVOICE");
+	  jdbcTemplate.update("DELETE FROM invoice WHERE oid = ? ",
+			 invoiceModel.getOId());
+}
+	
 	public void updateInvoiceServiceFee(InvoiceModel invoiceModel){
 		logger.debug("EXCUTE UPDATE INVOICE SERVICEFEE");
 	  jdbcTemplate.update("UPDATE invoice SET service_fee = ? WHERE oid = ? ",

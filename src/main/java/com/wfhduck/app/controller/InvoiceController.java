@@ -242,5 +242,26 @@ public class InvoiceController {
 			model.addAttribute("points",points);
 	        return "interface";
 	    }
+		
+		@RequestMapping("/removeInvoice")
+	    public String removeInvoice(HttpServletRequest request, Model model) throws SQLException{
+			String username = request.getParameter("username");
+	    	problemModel = new ProblemModel();
+	    	invoiceModel = new InvoiceModel();
+	    	Integer invoiceId = Integer.parseInt(request.getParameter("oid"));
+	    	Integer problemId = invoiceService.findInoviceProblemIdFromOId(invoiceId);
+	    	invoiceModel.setOId(invoiceId);
+	    	invoiceService.deleteInvoice(invoiceModel);
+	    	problemModel.setpId(problemId);
+			problemModel.setStatus("Open");
+			problemService.updateProblemStatus(problemModel);		//updating problem status to be 'Open'
+			Integer points = customerService.findCustomerPoints(username);
+			model.addAttribute("username",username);
+			model.addAttribute("points", points);
+			Integer userId = customerService.findCustomerUserId(username);
+			List<InvoiceProblemModel> problemsInvoices = invoiceProblemService.findAllInvoiceProblemFromTechnicianId(userId);
+			model.addAttribute("problemsInvoices", problemsInvoices);
+	        return "viewHandlingProblem"; 
+	    }
 
 }

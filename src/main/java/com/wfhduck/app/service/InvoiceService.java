@@ -69,5 +69,9 @@ public class InvoiceService {
 	public Integer findInoviceCustomerIdFromOId(Integer oId) throws SQLException{
 		return invoiceRepository.findInoviceCustomerIdFromOId(oId);
 	}
+	
+	public void deleteInvoice(InvoiceModel invoiceModel){
+		invoiceRepository.deleteInvoice(invoiceModel);
+	}
 
 }

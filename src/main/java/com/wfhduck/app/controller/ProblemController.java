@@ -75,6 +75,22 @@ public class ProblemController {
 	        return "viewPersonalProblem";
 	    }
 		
+		@RequestMapping("/cancelProblem")
+	    public String cancelProblem(HttpServletRequest request, Model model) throws SQLException{
+	    	problemModel = new ProblemModel();
+	    	String username = request.getParameter("username");
+	    	Integer problemId = Integer.parseInt(request.getParameter("pid"));
+	    	problemModel.setpId(problemId);
+	    	problemService.deleteProblem(problemModel);
+			Integer userIdFound = customerService.findCustomerUserId(username);
+			Integer points = customerService.findCustomerPoints(username);
+			model.addAttribute("username",username);
+			List<ProblemModel> problems = problemService.findAllProblemFromUserId(userIdFound);
+			model.addAttribute("problems", problems);
+			model.addAttribute("points", points);
+	        return "viewPersonalProblem";
+	    }
+		
 		@RequestMapping("/readOpeningProblem")
 	    public String readOpeningProblem(HttpServletRequest request, Model model) throws SQLException{
 	    	problemModel = new ProblemModel();
