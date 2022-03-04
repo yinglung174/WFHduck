@@ -58,6 +58,10 @@ public class InvoiceService {
 		return invoiceRepository.findInoviceTransportFeeFromOId(oId);
 	}
 	
+	public Integer findInoviceServiceFeeFromOId(Integer oId) throws SQLException{
+		return invoiceRepository.findInoviceServiceFeeFromOId(oId);
+	}
+	
 	public Double findInoviceDistanceFromOId(Integer oId) throws SQLException{
 		return invoiceRepository.findInoviceDistanceFromOId(oId);
 	}

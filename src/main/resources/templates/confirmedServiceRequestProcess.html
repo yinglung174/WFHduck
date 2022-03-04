@@ -17,35 +17,41 @@
 		<div class="container">
 			<div class="row justify-content-center">
 				<div class="col-md-6 text-center mb-5">
-					<h2 class="heading-section">View Your Problem</h2>
+					<h2 class="heading-section">View Your Invoice</h2>
 				</div>
 			</div>
 			<div class="row justify-content-center">
 				<div class="col-md-6 col-lg-4">
 					<div class="login-wrap p-0">
 		      	<h3 class="row justify-content-center"><p th:text="|You've ${points} pts|"></p></h3>
+		      	 <form th:action="@{/payServiceInvoiceProcess}" class="signin-form" method="get">
 		      <table style="width:100%">
+		      <input type="text" id="username" name="username" class="form-control" th:value="${username}" hidden>
+				  	<input type="text" id="oid" name="oid" class="form-control" th:value="${oId}" hidden>
+				  	<input type="text" id="serviceFee" name="serviceFee" class="form-control" th:value="${serviceFee}" hidden>
 		      	  <tr style="vertical-align:top">
 		      	  	<th>Category</th>
-		      	  	<th>Description</th>
-		      	  	<th>Status</th>
-				  <tr th:each="problem: ${problems}">
-				    <td><p th:text="${problem.category}"></p></td>
-				    <td><p th:text="${problem.description}"></p></td>
-				    <td><p th:text="${problem.status}"></p></td>
-				    <form th:action="@{/readInvoiceProcess}" class="signin-form" method="get" th:if="${problem.status == 'Handling'}">
-				  	<input type="text" id="username" name="username" class="form-control" th:value="${username}" hidden>
-				  	<input type="text" id="pid" name="pid" class="form-control" th:value="${problem.pId}" hidden>
-				    <td><button id="submit" type="submit" class="px-2 py-2 mr-md-1 rounded" th:if="${problem.status == 'Handling'}">View</button></td>
-				    </form>
-				    <form th:action="@{/confirmServiceRequestProcess}" class="signin-form" method="get" th:if="${problem.status == 'Solved'}">
-				  	<input type="text" id="username" name="username" class="form-control" th:value="${username}" hidden>
-				  	<input type="text" id="pid" name="pid" class="form-control" th:value="${problem.pId}" hidden>
-				    <td><button id="submit" type="submit" class="px-2 py-2 mr-md-1 rounded" th:if="${problem.status == 'Solved'}">Confirm</button></td>
-				    </form>
+		      	  	<td><p th:text="${category}"></p></td>
+		      	  </tr>
+				  <tr>
+				  	<th>Description</th>
+				    <td><p th:text="${description}"></p></td>
 				  </tr>
+				  <tr>
+				  	<th>Service Fee</th>
+				  	 <td><p th:text="${serviceFee}"></p></td>
 				</table>
-		      	<form th:action="@{/backToInterface}" class="signin-form" method="get">
+				<button id="submit" type="submit" class="form-control btn btn-primary submit px-3">Accept to Pay</button>
+				</form>
+				<p> </p>
+				 <form th:action="@{/rejectServiceInvoiceProcess}" class="signin-form" method="get">
+				 <input type="text" id="username" name="username" class="form-control" th:value="${username}" hidden>
+				  	<input type="text" id="oid" name="oid" class="form-control" th:value="${oId}" hidden>
+				  	<input type="text" id="serviceFee" name="serviceFee" class="form-control" th:value="${serviceFee}" hidden>
+				 <button id="submit" type="submit" class="form-control btn btn-primary submit px-3">Reject</button>
+		      	</form>
+		      	<p> </p>
+		      	<form th:action="@{/readPersonalProblem}" class="signin-form" method="get">
 		      	<input type="text" id="username" name="username" class="form-control" th:value="${username}" hidden>
 		      	<button id="submit" type="submit" class="form-control btn btn-primary submit px-3">Back</button>
 		      	</form>

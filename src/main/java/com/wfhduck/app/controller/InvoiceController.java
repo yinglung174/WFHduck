@@ -81,7 +81,6 @@ public class InvoiceController {
 	    public String payInvoiceProcess(HttpServletRequest request, Model model) throws SQLException{
 			invoiceModel = new InvoiceModel();
 			customerModel = new CustomerModel();
-			technicianModel = new CustomerModel();
 	    	String username = request.getParameter("username");
 	    	Integer transportFee = Integer.parseInt(request.getParameter("transportFee"));
 			Integer invoiceId = Integer.parseInt(request.getParameter("oid"));
@@ -175,6 +174,73 @@ public class InvoiceController {
 			model.addAttribute("username",username);
 			model.addAttribute("points",points);
 	        return "submittedServiceRequestProcess";
+	    }
+		
+		@RequestMapping("/confirmServiceRequestProcess")
+	    public String confirmServiceRequestProcess(HttpServletRequest request, Model model) throws SQLException{
+	    	String username = request.getParameter("username");
+			model.addAttribute("username",username);
+			Integer problemId = Integer.parseInt(request.getParameter("pid"));
+			Integer points = customerService.findCustomerPoints(username);
+			Integer invoiceId = invoiceService.findInoviceOIdFromProblemId(problemId);
+			Integer serviceFee = invoiceService.findInoviceServiceFeeFromOId(invoiceId);
+			String category = problemService.findProblemCategoryFromPId(problemId);
+			String description = problemService.findProblemDescriptionFromPid(problemId);
+			model.addAttribute("points",points);
+			model.addAttribute("category",category);
+			model.addAttribute("description",description);
+			model.addAttribute("serviceFee",serviceFee);
+			model.addAttribute("oId",invoiceId);
+	        return "confirmedServiceRequestProcess";
+	    }
+		
+		@RequestMapping("/payServiceInvoiceProcess")
+	    public String payServiceInvoiceProcess(HttpServletRequest request, Model model) throws SQLException{
+			customerModel = new CustomerModel();
+			technicianModel = new CustomerModel();
+	    	String username = request.getParameter("username");
+			Integer invoiceId = Integer.parseInt(request.getParameter("oid"));
+			Integer points = customerService.findCustomerPoints(username);
+			Integer serviceFee = Integer.parseInt(request.getParameter("serviceFee"));
+			customerModel.setUsername(username);
+			customerModel.setPoints(points - serviceFee); 					
+			customerService.updateCustomerPoints(customerModel);	//handling points reduction for customer
+			Integer technicianID = invoiceService.findInoviceTechnicianIdFromOId(invoiceId);
+			String technicianUsername = customerService.findCustomerUsername(technicianID);
+			technicianModel.setUsername(technicianUsername);
+			technicianModel.setPoints(points + serviceFee);
+			customerService.updateCustomerPoints(technicianModel);	//handling points increase for technician
+			invoiceModel.setOId(invoiceId);
+			invoiceModel.setStatus("Closed");
+			invoiceService.updateInvoiceStatus(invoiceModel);		//updating invoice status to be 'Closed'
+			Integer problemId = invoiceService.findInoviceProblemIdFromOId(invoiceId);
+			problemModel.setpId(problemId);
+			problemModel.setStatus("Closed");
+			problemService.updateProblemStatus(problemModel);		//updating problem status to be 'Closed'
+			model.addAttribute("username",username);
+			model.addAttribute("points",points);
+	        return "paidServiceRequestProcess";
+	    }
+		
+		@RequestMapping("/rejectServiceInvoiceProcess")
+	    public String rejectServiceInvoiceProcess(HttpServletRequest request, Model model) throws SQLException{
+			technicianModel = new CustomerModel();
+			invoiceModel = new InvoiceModel();
+	    	String username = request.getParameter("username");
+			Integer invoiceId = Integer.parseInt(request.getParameter("oid"));
+			Integer points = customerService.findCustomerPoints(username);
+			invoiceModel.setOId(invoiceId);
+			invoiceModel.setServiceFee(0);
+			invoiceModel.setStatus("Processing");
+			invoiceService.updateInvoiceStatus(invoiceModel);		//updating invoice status to be 'Processing'
+			invoiceService.updateInvoiceServiceFee(invoiceModel);	//updating service fee
+			Integer problemId = invoiceService.findInoviceProblemIdFromOId(invoiceId);
+			problemModel.setpId(problemId);
+			problemModel.setStatus("Arrived");
+			problemService.updateProblemStatus(problemModel);		//updating problem status to be 'Arrived'
+			model.addAttribute("username",username);
+			model.addAttribute("points",points);
+	        return "interface";
 	    }
 
 }
