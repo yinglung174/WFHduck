@@ -132,6 +132,4 @@ public class CustomerController {
 			model.addAttribute("username",username);
 	        return "updatePassword";
 	    }
-
-
 }

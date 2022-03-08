@@ -7,13 +7,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.wfhduck.app.model.InvoiceModel;
+import com.wfhduck.app.model.ProblemModel;
 import com.wfhduck.app.repository.InvoiceRepository;
+import com.wfhduck.app.repository.InvoiceRepositoryAPI;
 
 @Service
 public class InvoiceService {
 	
 	@Autowired
 	InvoiceRepository invoiceRepository;
+	
+	@Autowired
+	InvoiceRepositoryAPI invoiceRepositoryAPI;
 	public void addInvoice(InvoiceModel invoiceModel){
 		invoiceRepository.addInvoice(invoiceModel);
 	}
@@ -72,6 +77,27 @@ public class InvoiceService {
 	
 	public void deleteInvoice(InvoiceModel invoiceModel){
 		invoiceRepository.deleteInvoice(invoiceModel);
+	}
+	
+	public InvoiceModel createInvoice(InvoiceModel invoiceModel) throws SQLException{
+		return invoiceRepositoryAPI.save(invoiceModel);
+	}
+	public List<InvoiceModel> getInvoices() {
+	    return invoiceRepositoryAPI.findAll();
+	}
+	public void deleteInvoices(Integer oId) {
+		invoiceRepositoryAPI.deleteById(oId);
+	}
+	public InvoiceModel updateInvoices(Integer oId, InvoiceModel invoiceDetails) {
+        InvoiceModel invoiceModel = invoiceRepositoryAPI.findById(oId).get();
+        invoiceModel.setCustomerId(invoiceDetails.getCustomerId());
+        invoiceModel.setTechnicianId(invoiceDetails.getTechnicianId());
+        invoiceModel.setStatus(invoiceDetails.getStatus());
+        invoiceModel.setProblemId(invoiceDetails.getProblemId());
+        invoiceModel.setServiceFee(invoiceDetails.getServiceFee());
+        invoiceModel.setTransportFee(invoiceDetails.getTransportFee());
+        invoiceModel.setDistance(invoiceDetails.getDistance());
+        return invoiceRepositoryAPI.save(invoiceModel);                                
 	}
 
 }

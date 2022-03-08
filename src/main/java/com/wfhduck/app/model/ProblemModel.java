@@ -1,17 +1,34 @@
 package com.wfhduck.app.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 import org.springframework.stereotype.Component;
 
 @Component
+@Entity
+@Table(name = "problem")
 public class ProblemModel {
+	
+	@Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name="pid")
 	private Integer pId;
 
+	@Column(name="category")
 	private String category;
 	
+	@Column(name="description")
 	private String description;
 	
+	@Column(name="status")
 	private String status;
 	
+	@Column(name="user_id")
 	private Integer userId;
 
 	public Integer getPId() {

@@ -1,15 +1,30 @@
 package com.wfhduck.app.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 import org.springframework.stereotype.Component;
 
 @Component
+@Entity
+@Table(name = "addresscoordinateconvertor")
 public class AddressCoordinateConvertorModel {
+	@Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name="acc_id")
 	private Integer accId;
 
+	@Column(name="address")
 	private String address;
 	
+	@Column(name="coordinate_x")
 	private Double x;
 	
+	@Column(name="coordinate_y")
 	private Double y;
 	
 	private final Double randomMax = 1000.0;

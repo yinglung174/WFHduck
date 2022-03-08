@@ -1,23 +1,37 @@
 package com.wfhduck.app.model;
 
+import javax.persistence.*;
+
 import org.springframework.stereotype.Component;
 
 @Component
+@Entity
+@Table(name = "invoice")
 public class InvoiceModel {
+	@Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name="oid")
 	private Integer oId;
 
+	@Column(name="customer_id")
 	private Integer customerId;
 	
+	@Column(name="technician_id")
 	private Integer technicianId;
 	
+	@Column(name="status")
 	private String status;
 	
+	@Column(name="problem_id")
 	private Integer problemId;
 	
+	@Column(name="transport_fee")
 	private Integer transportFee;
 	
+	@Column(name="service_fee")
 	private Integer serviceFee;
 	
+	@Column(name="distance")
 	private Double distance;
 
 	public Integer getOId() {

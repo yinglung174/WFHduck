@@ -7,13 +7,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.wfhduck.app.model.ProblemModel;
+import com.wfhduck.app.model.ProblemModel;
 import com.wfhduck.app.repository.ProblemRepository;
+import com.wfhduck.app.repository.ProblemRepositoryAPI;
 
 @Service
 public class ProblemService {
 	
 	@Autowired
 	ProblemRepository problemRepository;
+	
+	@Autowired
+	ProblemRepositoryAPI problemRepositoryAPI;
 	public void addProblem(ProblemModel problemModel){
 		problemRepository.addProblem(problemModel);
 	}
@@ -52,5 +57,22 @@ public class ProblemService {
 
 	public void deleteProblem(ProblemModel problemModel){
 		problemRepository.deleteProblem(problemModel);
+	}
+	public ProblemModel createProblem(ProblemModel problemModel) throws SQLException{
+		return problemRepositoryAPI.save(problemModel);
+	}
+	public List<ProblemModel> getProblems() {
+	    return problemRepositoryAPI.findAll();
+	}
+	public void deleteProblems(Integer pId) {
+		problemRepositoryAPI.deleteById(pId);
+	}
+	public ProblemModel updateProblems(Integer pId, ProblemModel problemDetails) {
+        ProblemModel problemModel = problemRepositoryAPI.findById(pId).get();
+        problemModel.setCategory(problemDetails.getCategory());
+        problemModel.setDescription(problemDetails.getDescription());
+        problemModel.setStatus(problemDetails.getStatus());
+        problemModel.setUserId(problemDetails.getUserId());
+        return problemRepositoryAPI.save(problemModel);                                
 	}
 }
